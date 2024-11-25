@@ -1,11 +1,29 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
+
+import toast from "react-hot-toast";
+import { getOtp } from "../../services/authService";
 import TextField from "../../ui/TextField";
 
 const SendOtpForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
-  const SendOtphandler = (e) => {
+
+  const { isPending, error, data, mutateAsync } = useMutation({
+    mutationFn: getOtp,
+  });
+
+  const SendOtphandler = async (e) => {
     e.preventDefault();
+    try {
+      const data = await mutateAsync({ phoneNumber });
+      toast.success(data.message);
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    }
   };
+
+  // useQuery => get data
+  // useMutation => post,put,delete,...
 
   return (
     <div>

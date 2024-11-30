@@ -3,11 +3,11 @@ import { useState } from "react";
 
 import toast from "react-hot-toast";
 import { getOtp } from "../../services/authService";
+import Loading from "../../ui/Loading";
 import TextField from "../../ui/TextField";
 
 const SendOtpForm = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
-
   const { isPending, error, data, mutateAsync } = useMutation({
     mutationFn: getOtp,
   });
@@ -34,9 +34,15 @@ const SendOtpForm = () => {
           onChange={(e) => setPhoneNumber(e.target.value)}
           label="شماره موبایل"
         />
-        <button type="submit" className="btn btn--primary w-full">
-          ارسال کد تایید
-        </button>
+        <div className="">
+          {isPending ? (
+            <Loading />
+          ) : (
+            <button type="submit" className="btn btn--primary w-full">
+              ارسال کد تایید
+            </button>
+          )}
+        </div>
       </form>
     </div>
   );

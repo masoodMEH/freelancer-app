@@ -1,16 +1,23 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import CheckOTPForm from "./CheckOTPForm";
 import SendOtpForm from "./SendOtpForm";
 
 const AuthContainer = () => {
   const [step, setStep] = useState(1);
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const renderStep = () => {
     switch (step) {
       case 1:
-        return <SendOtpForm setStep={setStep} />;
+        return (
+          <SendOtpForm
+            setStep={setStep}
+            phoneNumber={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+          />
+        );
       case 2:
-        return <CheckOTPForm />;
+        return <CheckOTPForm phoneNumber={phoneNumber} />;
       default:
         return null;
     }
